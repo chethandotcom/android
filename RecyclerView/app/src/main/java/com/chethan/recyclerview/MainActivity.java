@@ -1,12 +1,15 @@
 package com.chethan.recyclerview;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -60,9 +63,14 @@ public class MainActivity extends AppCompatActivity {
         PlaylistRecyclerAdapter.OnItemClickListener onItemClickListener = new PlaylistRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                String itemTitle = arrayList.get(position);
+                Intent intent = new Intent(MainActivity.this, ItemDetailsActivity.class);
 
-                Toast.makeText(MainActivity.this, itemTitle, Toast.LENGTH_SHORT).show();
+                View viewHolder = (View) v.findViewById(R.id.card_view);
+                Pair<View, String> holderPair = Pair.create((View) viewHolder, "tCardHolder");
+
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        MainActivity.this, holderPair);
+                ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
             }
         };
 
